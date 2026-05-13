@@ -70,6 +70,24 @@
       margin-left: 20px;
     }
 
+    .currency-box {
+      margin-left: 12px;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      font-weight: bold;
+      outline: none;
+      background: white;
+    }
+
+    .location-status {
+      background: #eef2ff;
+      color: #3730a3;
+      padding: 10px 7%;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
     .hero {
       padding: 70px 7%;
       display: grid;
@@ -234,6 +252,12 @@
     .price {
       font-size: 20px;
       font-weight: bold;
+    }
+
+    .base-price {
+      color: #9ca3af;
+      font-size: 12px;
+      margin-top: 3px;
     }
 
     .stock {
@@ -491,7 +515,8 @@
   </style>
 </head>
 <body>
-  <div class="top-bar">Free delivery on orders above ₦100,000</div>
+  <div class="top-bar" id="top-bar">Free delivery on orders above ₦100,000</div>
+  <div class="location-status" id="location-status">Detecting your location and currency...</div>
 
   <header>
     <div class="logo">
@@ -504,6 +529,17 @@
       <a href="#shop">Shop</a>
       <a href="#policies">Policies</a>
       <a href="#contact">Contact</a>
+      <select id="currency-select" class="currency-box" onchange="changeCurrency(this.value)">
+        <option value="NGN">NGN</option>
+        <option value="USD">USD</option>
+        <option value="GBP">GBP</option>
+        <option value="EUR">EUR</option>
+        <option value="GHS">GHS</option>
+        <option value="KES">KES</option>
+        <option value="ZAR">ZAR</option>
+        <option value="CAD">CAD</option>
+        <option value="AUD">AUD</option>
+      </select>
       <button class="cart-btn" onclick="openCart()">Cart (<span id="cart-count">0</span>)</button>
     </nav>
   </header>
@@ -511,7 +547,7 @@
   <section class="hero" id="home">
     <div>
       <h2>Shop quality products at friendly prices.</h2>
-      <p>Welcome to BolaMart, your simple online store for fashion, electronics, bags, home essentials, and more.</p>
+      <p>Welcome to BolaMart, your simple online store for fashion, electronics, bags, home essentials, and more. Prices can automatically adjust to your detected currency.</p>
       <button onclick="document.getElementById('shop').scrollIntoView({behavior: 'smooth'})">Start Shopping</button>
     </div>
     <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=1600&auto=format&fit=crop" alt="Shopping" />
@@ -523,8 +559,8 @@
       <p>Quick and reliable delivery within supported locations.</p>
     </div>
     <div class="feature-card">
-      <h3>Secure Order</h3>
-      <p>Confirm your order clearly before payment and delivery.</p>
+      <h3>Auto Currency</h3>
+      <p>The website detects visitor location and changes prices to their likely local currency.</p>
     </div>
     <div class="feature-card">
       <h3>Customer Support</h3>
@@ -559,11 +595,11 @@
     </div>
     <div class="policy-card">
       <h3>Delivery Policy</h3>
-      <p>Delivery fee is calculated with your order. Free delivery applies to orders above ₦100,000.</p>
+      <p id="delivery-policy">Delivery fee is calculated with your order. Free delivery applies to orders above ₦100,000.</p>
     </div>
     <div class="policy-card">
-      <h3>Return Policy</h3>
-      <p>Products should be checked on delivery. Return terms should be confirmed before payment.</p>
+      <h3>Currency Policy</h3>
+      <p>Prices are stored in Nigerian Naira and converted for display. Final billing currency can be confirmed at checkout.</p>
     </div>
   </section>
 
@@ -613,16 +649,64 @@
     const store = {
       name: "BolaMart",
       whatsapp: "2348000000000",
-      deliveryFee: 2500,
-      freeDeliveryThreshold: 100000
+      baseCurrency: "NGN",
+      deliveryFeeNGN: 2500,
+      freeDeliveryThresholdNGN: 100000
     };
+
+    const currencyInfo = {
+      NGN: { locale: "en-NG", country: "Nigeria" },
+      USD: { locale: "en-US", country: "United States" },
+      GBP: { locale: "en-GB", country: "United Kingdom" },
+      EUR: { locale: "de-DE", country: "Europe" },
+      GHS: { locale: "en-GH", country: "Ghana" },
+      KES: { locale: "en-KE", country: "Kenya" },
+      ZAR: { locale: "en-ZA", country: "South Africa" },
+      CAD: { locale: "en-CA", country: "Canada" },
+      AUD: { locale: "en-AU", country: "Australia" }
+    };
+
+    const countryToCurrency = {
+      NG: "NGN",
+      US: "USD",
+      GB: "GBP",
+      GH: "GHS",
+      KE: "KES",
+      ZA: "ZAR",
+      CA: "CAD",
+      AU: "AUD",
+      FR: "EUR",
+      DE: "EUR",
+      ES: "EUR",
+      IT: "EUR",
+      NL: "EUR",
+      BE: "EUR",
+      PT: "EUR",
+      IE: "EUR",
+      GR: "EUR"
+    };
+
+    const fallbackRatesFromNGN = {
+      NGN: 1,
+      USD: 0.00067,
+      GBP: 0.00053,
+      EUR: 0.00061,
+      GHS: 0.0075,
+      KES: 0.086,
+      ZAR: 0.012,
+      CAD: 0.00091,
+      AUD: 0.0010
+    };
+
+    let exchangeRatesFromNGN = { ...fallbackRatesFromNGN };
+    let selectedCurrency = localStorage.getItem("bolamart-currency") || "NGN";
 
     const products = [
       {
         id: 1,
         name: "Classic Leather Handbag",
         category: "Fashion",
-        price: 18500,
+        priceNGN: 18500,
         stock: 15,
         image: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=1200&auto=format&fit=crop",
         description: "Stylish everyday handbag for work, church, school, and outings."
@@ -631,8 +715,8 @@
         id: 2,
         name: "Wireless Smart Watch",
         category: "Electronics",
-        price: 64000,
-        stock: 19,
+        priceNGN: 32000,
+        stock: 9,
         image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop",
         description: "Modern smartwatch for calls, fitness tracking, and notifications."
       },
@@ -640,7 +724,7 @@
         id: 3,
         name: "Premium Sneakers",
         category: "Fashion",
-        price: 27000,
+        priceNGN: 27000,
         stock: 22,
         image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop",
         description: "Comfortable sneakers for daily movement and casual dressing."
@@ -649,7 +733,7 @@
         id: 4,
         name: "Minimal Desk Lamp",
         category: "Home",
-        price: 14500,
+        priceNGN: 14500,
         stock: 18,
         image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=1200&auto=format&fit=crop",
         description: "Simple and beautiful desk lamp for home, office, and study."
@@ -658,7 +742,7 @@
         id: 5,
         name: "Bluetooth Headphones",
         category: "Electronics",
-        price: 25000,
+        priceNGN: 25000,
         stock: 11,
         image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200&auto=format&fit=crop",
         description: "Wireless headphones with clear sound and comfortable ear pads."
@@ -667,7 +751,7 @@
         id: 6,
         name: "Luxury Bed Sheet Set",
         category: "Home",
-        price: 21000,
+        priceNGN: 21000,
         stock: 13,
         image: "https://images.unsplash.com/photo-1616627561950-9f746e330187?q=80&w=1200&auto=format&fit=crop",
         description: "Soft bed sheet set for comfort and a neat bedroom look."
@@ -676,7 +760,7 @@
         id: 7,
         name: "Everyday Backpack",
         category: "Bags",
-        price: 16500,
+        priceNGN: 16500,
         stock: 20,
         image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1200&auto=format&fit=crop",
         description: "Durable backpack for school, work, travel, and daily use."
@@ -685,7 +769,7 @@
         id: 8,
         name: "Kitchen Storage Set",
         category: "Home",
-        price: 12000,
+        priceNGN: 12000,
         stock: 30,
         image: "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?q=80&w=1200&auto=format&fit=crop",
         description: "Useful kitchen containers for organizing food and spices."
@@ -695,16 +779,99 @@
     let cart = JSON.parse(localStorage.getItem("bolamart-cart")) || [];
     let activeCategory = "All";
 
-    function formatMoney(amount) {
+    function convertFromNGN(amountNGN) {
+      const rate = exchangeRatesFromNGN[selectedCurrency] || 1;
+      return amountNGN * rate;
+    }
+
+    function formatMoneyFromNGN(amountNGN) {
+      const convertedAmount = convertFromNGN(amountNGN);
+      const info = currencyInfo[selectedCurrency] || currencyInfo.NGN;
+
+      return new Intl.NumberFormat(info.locale, {
+        style: "currency",
+        currency: selectedCurrency,
+        maximumFractionDigits: selectedCurrency === "NGN" ? 0 : 2
+      }).format(convertedAmount);
+    }
+
+    function formatBaseMoney(amountNGN) {
       return new Intl.NumberFormat("en-NG", {
         style: "currency",
         currency: "NGN",
         maximumFractionDigits: 0
-      }).format(amount);
+      }).format(amountNGN);
     }
 
     function saveCart() {
       localStorage.setItem("bolamart-cart", JSON.stringify(cart));
+    }
+
+    function changeCurrency(currency) {
+      selectedCurrency = currency;
+      localStorage.setItem("bolamart-currency", selectedCurrency);
+      document.getElementById("currency-select").value = selectedCurrency;
+      updateCurrencyText();
+      renderProducts();
+      renderCart();
+    }
+
+    function updateCurrencyText() {
+      const threshold = formatMoneyFromNGN(store.freeDeliveryThresholdNGN);
+      const deliveryFee = formatMoneyFromNGN(store.deliveryFeeNGN);
+      const currencyCountry = currencyInfo[selectedCurrency]?.country || selectedCurrency;
+
+      document.getElementById("top-bar").textContent = `Free delivery on orders above ${threshold}`;
+      document.getElementById("delivery-policy").textContent = `Delivery fee is ${deliveryFee}. Free delivery applies to orders above ${threshold}.`;
+      document.getElementById("location-status").textContent = `Currency set to ${selectedCurrency} (${currencyCountry}). You can change it manually from the currency dropdown.`;
+    }
+
+    async function fetchLiveRates() {
+      try {
+        const response = await fetch("https://open.er-api.com/v6/latest/NGN");
+        const data = await response.json();
+
+        if (data && data.result === "success" && data.rates) {
+          Object.keys(fallbackRatesFromNGN).forEach(currency => {
+            if (data.rates[currency]) {
+              exchangeRatesFromNGN[currency] = data.rates[currency];
+            }
+          });
+        }
+      } catch (error) {
+        console.warn("Live exchange rates unavailable. Using fallback rates.", error);
+      }
+    }
+
+    async function detectLocationAndCurrency() {
+      const status = document.getElementById("location-status");
+
+      if (localStorage.getItem("bolamart-currency")) {
+        status.textContent = `Currency restored from your previous selection: ${selectedCurrency}.`;
+        changeCurrency(selectedCurrency);
+        return;
+      }
+
+      try {
+        const response = await fetch("https://ipapi.co/json/");
+        const data = await response.json();
+        const detectedCurrency = data.currency || countryToCurrency[data.country_code] || "NGN";
+
+        if (currencyInfo[detectedCurrency]) {
+          selectedCurrency = detectedCurrency;
+          status.textContent = `Detected location: ${data.city || "Unknown city"}, ${data.country_name || "Unknown country"}. Currency set to ${selectedCurrency}.`;
+        } else {
+          selectedCurrency = "NGN";
+          status.textContent = "Location detected, but the local currency is not supported yet. Currency set to NGN.";
+        }
+      } catch (error) {
+        const browserLocale = navigator.language || "en-NG";
+        const countryCode = browserLocale.split("-")[1];
+        selectedCurrency = countryToCurrency[countryCode] || "NGN";
+        status.textContent = `Location service unavailable. Currency guessed from browser settings: ${selectedCurrency}.`;
+      }
+
+      changeCurrency(selectedCurrency);
     }
 
     function setCategory(category, button) {
@@ -736,6 +903,8 @@
       }
 
       filteredProducts.forEach(product => {
+        const basePriceNote = selectedCurrency === "NGN" ? "" : `<p class="base-price">Base price: ${formatBaseMoney(product.priceNGN)}</p>`;
+
         productContainer.innerHTML += `
           <div class="product-card">
             <img src="${product.image}" alt="${product.name}">
@@ -744,7 +913,10 @@
               <h3>${product.name}</h3>
               <p class="description">${product.description}</p>
               <div class="price-row">
-                <span class="price">${formatMoney(product.price)}</span>
+                <div>
+                  <span class="price">${formatMoneyFromNGN(product.priceNGN)}</span>
+                  ${basePriceNote}
+                </div>
                 <span class="stock">${product.stock} in stock</span>
               </div>
               <button onclick="addToCart(${product.id})">Add to Cart</button>
@@ -809,11 +981,11 @@
 
       cartItems.innerHTML = "";
 
-      let subtotal = 0;
+      let subtotalNGN = 0;
       let itemCount = 0;
 
       cart.forEach(item => {
-        subtotal += item.price * item.quantity;
+        subtotalNGN += item.priceNGN * item.quantity;
         itemCount += item.quantity;
 
         cartItems.innerHTML += `
@@ -821,7 +993,7 @@
             <img src="${item.image}" alt="${item.name}">
             <div>
               <h4>${item.name}</h4>
-              <p>${formatMoney(item.price)}</p>
+              <p>${formatMoneyFromNGN(item.priceNGN)}</p>
               <div class="qty-controls">
                 <button onclick="decreaseQuantity(${item.id})">-</button>
                 <span>${item.quantity}</span>
@@ -837,13 +1009,13 @@
         cartItems.innerHTML = "<p>Your cart is empty.</p>";
       }
 
-      const delivery = subtotal === 0 ? 0 : subtotal >= store.freeDeliveryThreshold ? 0 : store.deliveryFee;
-      const total = subtotal + delivery;
+      const deliveryNGN = subtotalNGN === 0 ? 0 : subtotalNGN >= store.freeDeliveryThresholdNGN ? 0 : store.deliveryFeeNGN;
+      const totalNGN = subtotalNGN + deliveryNGN;
 
       cartCount.textContent = itemCount;
-      subtotalElement.textContent = formatMoney(subtotal);
-      deliveryElement.textContent = formatMoney(delivery);
-      totalElement.textContent = formatMoney(total);
+      subtotalElement.textContent = formatMoneyFromNGN(subtotalNGN);
+      deliveryElement.textContent = formatMoneyFromNGN(deliveryNGN);
+      totalElement.textContent = formatMoneyFromNGN(totalNGN);
     }
 
     function openCart() {
@@ -872,25 +1044,35 @@
         return;
       }
 
-      let subtotal = 0;
+      let subtotalNGN = 0;
       let orderItems = "";
 
       cart.forEach(item => {
-        const itemTotal = item.price * item.quantity;
-        subtotal += itemTotal;
-        orderItems += `- ${item.name} x${item.quantity} = ${formatMoney(itemTotal)}%0A`;
+        const itemTotalNGN = item.priceNGN * item.quantity;
+        subtotalNGN += itemTotalNGN;
+        orderItems += `- ${item.name} x${item.quantity} = ${formatMoneyFromNGN(itemTotalNGN)} (${formatBaseMoney(itemTotalNGN)})%0A`;
       });
 
-      const delivery = subtotal >= store.freeDeliveryThreshold ? 0 : store.deliveryFee;
-      const total = subtotal + delivery;
+      const deliveryNGN = subtotalNGN >= store.freeDeliveryThresholdNGN ? 0 : store.deliveryFeeNGN;
+      const totalNGN = subtotalNGN + deliveryNGN;
 
-      const message = `Hello ${store.name}, I want to place an order.%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AAddress: ${encodeURIComponent(address)}%0A%0AItems:%0A${orderItems}%0ASubtotal: ${encodeURIComponent(formatMoney(subtotal))}%0ADelivery: ${encodeURIComponent(formatMoney(delivery))}%0ATotal: ${encodeURIComponent(formatMoney(total))}`;
+      const message = `Hello ${store.name}, I want to place an order.%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AAddress: ${encodeURIComponent(address)}%0ACurrency: ${selectedCurrency}%0A%0AItems:%0A${orderItems}%0ASubtotal: ${encodeURIComponent(formatMoneyFromNGN(subtotalNGN))} (${encodeURIComponent(formatBaseMoney(subtotalNGN))})%0ADelivery: ${encodeURIComponent(formatMoneyFromNGN(deliveryNGN))} (${encodeURIComponent(formatBaseMoney(deliveryNGN))})%0ATotal: ${encodeURIComponent(formatMoneyFromNGN(totalNGN))} (${encodeURIComponent(formatBaseMoney(totalNGN))})`;
 
       window.open(`https://wa.me/${store.whatsapp}?text=${message}`, "_blank");
     }
 
-    renderProducts();
-    renderCart();
+    async function initializeWebsite() {
+      document.getElementById("currency-select").value = selectedCurrency;
+      renderProducts();
+      renderCart();
+      updateCurrencyText();
+      await fetchLiveRates();
+      await detectLocationAndCurrency();
+      renderProducts();
+      renderCart();
+    }
+
+    initializeWebsite();
   </script>
 </body>
 </html>

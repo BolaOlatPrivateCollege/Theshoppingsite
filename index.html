@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bola-Mart International Store</title>
+  <title>Shop-Right International</title>
   <style>
     * {
       margin: 0;
@@ -520,7 +520,7 @@
 
   <header>
     <div class="logo">
-      <h1>BolaMart</h1>
+      <h1>Shop-Right</h1>
       <p>Quality products, fast delivery</p>
     </div>
 
@@ -547,7 +547,7 @@
   <section class="hero" id="home">
     <div>
       <h2>Shop quality products at friendly prices.</h2>
-      <p>Welcome to BolaMart, your simple online store for fashion, electronics, bags, home essentials, and more. Prices can automatically adjust to your detected currency.</p>
+      <p>Welcome to Shop-Right, your simple online store for fashion, electronics, bags, home essentials, and more. Prices can automatically adjust to your detected currency.</p>
       <button onclick="document.getElementById('shop').scrollIntoView({behavior: 'smooth'})">Start Shopping</button>
     </div>
     <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=1600&auto=format&fit=crop" alt="Shopping" />
@@ -604,12 +604,12 @@
   </section>
 
   <footer id="contact">
-    <h2>BolaMart</h2>
+    <h2>Shop-Right</h2>
     <p>Quality products, fast delivery.</p>
     <p>Phone: +234 800 000 0000</p>
-    <p>Email: hello@bolamart.com</p>
+    <p>Email: hello@Shop-Right.com</p>
     <p>Address: Lagos, Nigeria</p>
-    <div class="footer-bottom">© 2026 BolaMart. All rights reserved.</div>
+    <div class="footer-bottom">© 2026 Shop-Right. All rights reserved.</div>
   </footer>
 
   <aside class="cart-panel" id="cart-panel">
@@ -647,7 +647,7 @@
 
   <script>
     const store = {
-      name: "BolaMart",
+      name: "Shop-Right",
       whatsapp: "2348000000000",
       baseCurrency: "NGN",
       deliveryFeeNGN: 2500,
@@ -699,7 +699,7 @@
     };
 
     let exchangeRatesFromNGN = { ...fallbackRatesFromNGN };
-    let selectedCurrency = localStorage.getItem("bolamart-currency") || "NGN";
+    let selectedCurrency = localStorage.getItem("Shop-Right-currency") || "NGN";
 
     const products = [
       {
@@ -776,7 +776,7 @@
       }
     ];
 
-    let cart = JSON.parse(localStorage.getItem("bolamart-cart")) || [];
+    let cart = JSON.parse(localStorage.getItem("Shop-Right-cart")) || [];
     let activeCategory = "All";
 
     function convertFromNGN(amountNGN) {
@@ -804,12 +804,12 @@
     }
 
     function saveCart() {
-      localStorage.setItem("bolamart-cart", JSON.stringify(cart));
+      localStorage.setItem("Shop-Right-cart", JSON.stringify(cart));
     }
 
     function changeCurrency(currency) {
       selectedCurrency = currency;
-      localStorage.setItem("bolamart-currency", selectedCurrency);
+      localStorage.setItem("Shop-Right-currency", selectedCurrency);
       document.getElementById("currency-select").value = selectedCurrency;
       updateCurrencyText();
       renderProducts();
@@ -846,7 +846,7 @@
     async function detectLocationAndCurrency() {
       const status = document.getElementById("location-status");
 
-      if (localStorage.getItem("bolamart-currency")) {
+      if (localStorage.getItem("Shop-Right-currency")) {
         status.textContent = `Currency restored from your previous selection: ${selectedCurrency}.`;
         changeCurrency(selectedCurrency);
         return;

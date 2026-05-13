@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shop-Right International</title>
+  <title>Shop-Right International Shopping Website</title>
   <style>
     * {
       margin: 0;
@@ -15,6 +15,197 @@
     body {
       background: #f4f6f8;
       color: #111827;
+    }
+
+    .splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: linear-gradient(135deg, #111827, #1f2937, #0f172a);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .splash-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .splash-content {
+      animation: splashZoom 1.2s ease;
+      padding: 30px;
+    }
+
+    .splash-logo {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 20px;
+      border-radius: 28px;
+      background: white;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      font-weight: bold;
+      box-shadow: 0 20px 50px rgba(255,255,255,0.2);
+    }
+
+    .splash-content h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .splash-content p {
+      color: #d1d5db;
+      font-size: 16px;
+      margin-bottom: 22px;
+    }
+
+    .loader {
+      width: 180px;
+      height: 6px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: auto;
+    }
+
+    .loader span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: white;
+      animation: loadBar 1.8s ease forwards;
+    }
+
+    @keyframes splashZoom {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes loadBar {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-overlay.show {
+      display: flex;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: white;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.25);
+      position: relative;
+    }
+
+    .login-card h2 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .login-card p {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .login-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #f3f4f6;
+      padding: 5px;
+      border-radius: 16px;
+      margin-bottom: 18px;
+    }
+
+    .login-tabs button {
+      border: none;
+      background: transparent;
+      padding: 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #374151;
+    }
+
+    .login-tabs button.active {
+      background: white;
+      color: #111827;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .google-btn,
+    .demo-login-btn,
+    .logout-btn {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      background: white;
+      padding: 13px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .demo-login-btn {
+      background: #111827;
+      color: white;
+      border-color: #111827;
+    }
+
+    .logout-btn {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fecaca;
+      display: none;
+    }
+
+    .login-note {
+      font-size: 12px;
+      color: #6b7280;
+      background: #f9fafb;
+      padding: 12px;
+      border-radius: 14px;
+      margin-top: 10px;
+    }
+
+    .user-status {
+      font-size: 13px;
+      font-weight: bold;
+      color: #374151;
+      margin-left: 12px;
+    }
+
+    .login-link-btn {
+      background: white;
+      color: #111827;
+      border: 1px solid #d1d5db;
+      padding: 11px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-left: 12px;
     }
 
     .top-bar {
@@ -815,6 +1006,14 @@
   </style>
 </head>
 <body>
+  <div class="splash-screen" id="splash-screen">
+    <div class="splash-content">
+      <div class="splash-logo">SR</div>
+      <h1>Shop-Right International</h1>
+      <p>Loading your smart shopping experience...</p>
+      <div class="loader"><span></span></div>
+    </div>
+  </div>
   <div class="top-bar" id="top-bar">Free delivery on orders above ₦100,000</div>
   <div class="location-status" id="location-status">Detecting your location and currency...</div>
 
@@ -842,6 +1041,8 @@
         <option value="CAD">CAD</option>
         <option value="AUD">AUD</option>
       </select>
+      <span class="user-status" id="user-status">Guest</span>
+      <button class="login-link-btn" onclick="openLogin('user')">Login</button>
       <button class="cart-btn" onclick="openCart()">Cart (<span id="cart-count">0</span>)</button>
     </nav>
   </header>
@@ -995,6 +1196,27 @@
     </div>
   </div>
 
+  <div class="login-overlay" id="login-overlay">
+    <div class="login-card">
+      <button class="close-btn" style="position:absolute; right:18px; top:18px;" onclick="closeLogin()">X</button>
+      <h2>Account Login</h2>
+      <p>Sign in as a customer or admin. Google sign-in is prepared for real Firebase/OAuth connection.</p>
+
+      <div class="login-tabs">
+        <button id="user-tab" class="active" onclick="setLoginRole('user')">User</button>
+        <button id="admin-tab" onclick="setLoginRole('admin')">Admin</button>
+      </div>
+
+      <button class="google-btn" onclick="signInWithGoogle()">Continue with Gmail</button>
+      <button class="demo-login-btn" onclick="demoLogin()">Demo Login</button>
+      <button class="logout-btn" id="logout-btn" onclick="logoutUser()">Logout</button>
+
+      <div class="login-note">
+        <strong>Note:</strong> This HTML version uses demo login in the browser. To make Gmail login real and secure, connect this site to Firebase Authentication or Google OAuth through a backend.
+      </div>
+    </div>
+  </div>
+
   <button class="chat-float" onclick="toggleAIChat()">AI Chat</button>
 
   <aside class="cart-panel" id="cart-panel">
@@ -1031,6 +1253,9 @@
   </aside>
 
   <script>
+    let currentLoginRole = "user";
+    let currentUser = JSON.parse(localStorage.getItem("shopright-user")) || null;
+
     const store = {
       name: "Shop-Right International",
       whatsapp: "2349029844206",
@@ -1529,6 +1754,7 @@
     }
 
     function updateOrderStatus() {
+      if (!protectAdminAction()) return;
       const orderId = document.getElementById("admin-order-id").value.trim().toUpperCase();
       const customerName = document.getElementById("admin-customer-name").value.trim();
       const status = document.getElementById("admin-order-status").value;
@@ -1626,6 +1852,69 @@
       return "I can help with product availability, delivery fee, payment, order tracking, currency conversion, returns, or admin support. Please ask your question another way or contact an admin for direct help.";
     }
 
+    function openLogin(role = "user") {
+      setLoginRole(role);
+      document.getElementById("login-overlay").classList.add("show");
+      updateUserStatus();
+    }
+
+    function closeLogin() {
+      document.getElementById("login-overlay").classList.remove("show");
+    }
+
+    function setLoginRole(role) {
+      currentLoginRole = role;
+      document.getElementById("user-tab")?.classList.toggle("active", role === "user");
+      document.getElementById("admin-tab")?.classList.toggle("active", role === "admin");
+    }
+
+    function signInWithGoogle() {
+      alert("Real Gmail sign-in requires Firebase Authentication or Google OAuth setup. Use Demo Login for now, or connect Firebase later.");
+    }
+
+    function demoLogin() {
+      const demoEmail = currentLoginRole === "admin" ? "admin@shoprightinternational.com" : "customer@gmail.com";
+      currentUser = {
+        name: currentLoginRole === "admin" ? "Shop-Right Admin" : "Shop-Right Customer",
+        email: demoEmail,
+        role: currentLoginRole,
+        loginMethod: "Demo Login"
+      };
+      localStorage.setItem("shopright-user", JSON.stringify(currentUser));
+      updateUserStatus();
+      closeLogin();
+      alert(`Logged in as ${currentUser.role.toUpperCase()}: ${currentUser.email}`);
+    }
+
+    function logoutUser() {
+      currentUser = null;
+      localStorage.removeItem("shopright-user");
+      updateUserStatus();
+      alert("You have been logged out.");
+    }
+
+    function updateUserStatus() {
+      const status = document.getElementById("user-status");
+      const logoutBtn = document.getElementById("logout-btn");
+
+      if (currentUser) {
+        status.textContent = `${currentUser.role.toUpperCase()}: ${currentUser.email}`;
+        if (logoutBtn) logoutBtn.style.display = "block";
+      } else {
+        status.textContent = "Guest";
+        if (logoutBtn) logoutBtn.style.display = "none";
+      }
+    }
+
+    function protectAdminAction() {
+      if (!currentUser || currentUser.role !== "admin") {
+        alert("Admin login is required to update orders.");
+        openLogin("admin");
+        return false;
+      }
+      return true;
+    }
+
     async function initializeWebsite() {
       document.getElementById("currency-select").value = selectedCurrency;
       renderProducts();
@@ -1638,6 +1927,13 @@
     }
 
     initializeWebsite();
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("splash-screen").classList.add("hide");
+      }, 1900);
+      updateUserStatus();
+    });
   </script>
 </body>
 </html>

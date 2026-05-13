@@ -80,6 +80,290 @@
       background: white;
     }
 
+    .chat-float {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 180;
+      background: #16a34a;
+      color: white;
+      text-decoration: none;
+      padding: 15px 18px;
+      border-radius: 999px;
+      font-weight: bold;
+      box-shadow: 0 12px 30px rgba(22, 163, 74, 0.35);
+    }
+
+    .chat-support {
+      padding: 40px 7%;
+    }
+
+    .chat-box {
+      background: white;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .chat-box h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .chat-box p {
+      color: #6b7280;
+      line-height: 1.7;
+    }
+
+    .support-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .support-item {
+      background: #f9fafb;
+      padding: 14px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .support-item a {
+      color: #111827;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .ai-chat-panel {
+      position: fixed;
+      right: 22px;
+      bottom: 88px;
+      width: 360px;
+      max-height: 560px;
+      background: white;
+      z-index: 190;
+      border-radius: 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+      display: none;
+      overflow: hidden;
+    }
+
+    .ai-chat-panel.open {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-chat-header {
+      background: #111827;
+      color: white;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ai-chat-header h3 {
+      font-size: 17px;
+    }
+
+    .ai-chat-header p {
+      font-size: 12px;
+      color: #d1d5db;
+      margin-top: 3px;
+    }
+
+    .ai-chat-messages {
+      padding: 16px;
+      height: 330px;
+      overflow-y: auto;
+      background: #f9fafb;
+    }
+
+    .message {
+      padding: 11px 13px;
+      border-radius: 16px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 85%;
+    }
+
+    .bot-message {
+      background: white;
+      color: #111827;
+      border: 1px solid #e5e7eb;
+    }
+
+    .user-message {
+      background: #111827;
+      color: white;
+      margin-left: auto;
+    }
+
+    .quick-questions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .quick-questions button {
+      border: none;
+      background: #eef2ff;
+      color: #3730a3;
+      padding: 8px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .ai-chat-input {
+      display: flex;
+      gap: 8px;
+      padding: 14px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .ai-chat-input input {
+      flex: 1;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      padding: 12px;
+      outline: none;
+    }
+
+    .ai-chat-input button {
+      border: none;
+      background: #111827;
+      color: white;
+      padding: 0 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .order-tracking {
+      padding: 40px 7%;
+    }
+
+    .tracking-box {
+      background: white;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+
+    .tracking-box h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .tracking-box p {
+      color: #6b7280;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .tracking-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .tracking-form input {
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      outline: none;
+    }
+
+    .tracking-form button {
+      border: none;
+      background: #111827;
+      color: white;
+      padding: 14px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .tracking-result {
+      display: none;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 18px;
+      background: #f9fafb;
+    }
+
+    .tracking-result.show {
+      display: block;
+    }
+
+    .status-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .status-step {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    .status-step.active {
+      background: #dcfce7;
+      color: #166534;
+      border-color: #86efac;
+    }
+
+    .admin-update-box {
+      margin-top: 25px;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 25px;
+    }
+
+    .admin-update-box h3 {
+      margin-bottom: 12px;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .admin-grid input,
+    .admin-grid select {
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      outline: none;
+    }
+
+    .admin-grid button {
+      border: none;
+      background: #111827;
+      color: white;
+      padding: 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
     .location-status {
       background: #eef2ff;
       color: #3730a3;
@@ -461,6 +745,10 @@
     }
 
     @media (max-width: 900px) {
+      .chat-box {
+        grid-template-columns: 1fr;
+      }
+
       header {
         flex-direction: column;
         gap: 12px;
@@ -511,6 +799,18 @@
         width: 100%;
         right: -100%;
       }
+
+      .ai-chat-panel {
+        width: calc(100% - 24px);
+        right: 12px;
+        bottom: 80px;
+      }
+
+      .tracking-form,
+      .admin-grid,
+      .status-steps {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -520,7 +820,7 @@
 
   <header>
     <div class="logo">
-      <h1>Shop-Right</h1>
+      <h1>Shop-Right International</h1>
       <p>Quality products, fast delivery</p>
     </div>
 
@@ -528,6 +828,8 @@
       <a href="#home">Home</a>
       <a href="#shop">Shop</a>
       <a href="#policies">Policies</a>
+      <a href="#tracking">Track Order</a>
+      <a href="#support">Support</a>
       <a href="#contact">Contact</a>
       <select id="currency-select" class="currency-box" onchange="changeCurrency(this.value)">
         <option value="NGN">NGN</option>
@@ -547,7 +849,7 @@
   <section class="hero" id="home">
     <div>
       <h2>Shop quality products at friendly prices.</h2>
-      <p>Welcome to Shop-Right, your simple online store for fashion, electronics, bags, home essentials, and more. Prices can automatically adjust to your detected currency.</p>
+      <p>Welcome to Shop-Right International, your simple online store for fashion, electronics, bags, home essentials, and more. Prices can automatically adjust to your detected currency.</p>
       <button onclick="document.getElementById('shop').scrollIntoView({behavior: 'smooth'})">Start Shopping</button>
     </div>
     <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=1600&auto=format&fit=crop" alt="Shopping" />
@@ -603,14 +905,97 @@
     </div>
   </section>
 
+  <section class="order-tracking" id="tracking">
+    <div class="tracking-box">
+      <h2>Track Your Order</h2>
+      <p>Enter your order ID to check your current order status. Example demo order IDs: <strong>BM1001</strong>, <strong>BM1002</strong>, <strong>BM1003</strong>.</p>
+      <div class="tracking-form">
+        <input type="text" id="tracking-id" placeholder="Enter Order ID, e.g. BM1001" />
+        <button onclick="trackOrder()">Track Order</button>
+      </div>
+      <div class="tracking-result" id="tracking-result"></div>
+
+      <div class="admin-update-box">
+        <h3>Admin Order Update</h3>
+        <p>This simple admin update area stores order status in the browser. For a live business, this should be connected to a real database and protected with admin login.</p>
+        <div class="admin-grid">
+          <input type="text" id="admin-order-id" placeholder="Order ID" />
+          <input type="text" id="admin-customer-name" placeholder="Customer name" />
+          <select id="admin-order-status">
+            <option value="Order Received">Order Received</option>
+            <option value="Payment Confirmed">Payment Confirmed</option>
+            <option value="Processing">Processing</option>
+            <option value="Out for Delivery">Out for Delivery</option>
+            <option value="Delivered">Delivered</option>
+          </select>
+          <button onclick="updateOrderStatus()">Update Order</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chat-support" id="support">
+    <div class="chat-box">
+      <div>
+        <h2>Chat Support</h2>
+        <p>Need help with product availability, delivery, payment confirmation, or order tracking? Contact any of our support admins below.</p>
+      </div>
+      <div class="support-list">
+        <div class="support-item">
+          <strong>Admin Email 1:</strong><br>
+          <a href="mailto:lukemartins605@gmail.com">lukemartins605@gmail.com</a>
+        </div>
+        <div class="support-item">
+          <strong>Admin Email 2:</strong><br>
+          <a href="mailto:aladehabeeb213@gmail.com">aladehabeeb213@gmail.com</a>
+        </div>
+        <div class="support-item">
+          <strong>Support Phone 1:</strong><br>
+          <a href="tel:+2349029844206">+234 9029844206</a> | <a href="https://wa.me/2349029844206" target="_blank">WhatsApp</a>
+        </div>
+        <div class="support-item">
+          <strong>Support Phone 2:</strong><br>
+          <a href="tel:+2348165001209">+234 8165001209</a> | <a href="https://wa.me/2348165001209" target="_blank">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer id="contact">
-    <h2>Shop-Right</h2>
+    <h2>Shop-Right International</h2>
     <p>Quality products, fast delivery.</p>
-    <p>Phone: +234 800 000 0000</p>
-    <p>Email: hello@Shop-Right.com</p>
+    <p>Phone 1: +234 9029844206</p>
+    <p>Phone 2: +234 8165001209</p>
+    <p>Email 1: lukemartins605@gmail.com</p>
+    <p>Email 2: aladehabeeb213@gmail.com</p>
     <p>Address: Lagos, Nigeria</p>
-    <div class="footer-bottom">© 2026 Shop-Right. All rights reserved.</div>
+    <div class="footer-bottom">© 2026 Shop-Right International. All rights reserved.</div>
   </footer>
+
+  <div class="ai-chat-panel" id="ai-chat-panel">
+    <div class="ai-chat-header">
+      <div>
+        <h3>Shop-Right International AI Support</h3>
+        <p>Online assistant</p>
+      </div>
+      <button class="close-btn" onclick="toggleAIChat()">X</button>
+    </div>
+    <div class="ai-chat-messages" id="ai-chat-messages">
+      <div class="message bot-message">Hello! I am Shop-Right International AI Support. I can help with products, delivery, payment, order tracking, returns, and contacting an admin.</div>
+    </div>
+    <div class="quick-questions">
+      <button onclick="askQuickQuestion('How do I track my order?')">Track order</button>
+      <button onclick="askQuickQuestion('What is the delivery fee?')">Delivery fee</button>
+      <button onclick="askQuickQuestion('How do I pay?')">Payment</button>
+      <button onclick="askQuickQuestion('I need an admin')">Admin help</button>
+    </div>
+    <div class="ai-chat-input">
+      <input type="text" id="ai-chat-input" placeholder="Type your question..." onkeydown="handleChatEnter(event)" />
+      <button onclick="sendAIMessage()">Send</button>
+    </div>
+  </div>
+
+  <button class="chat-float" onclick="toggleAIChat()">AI Chat</button>
 
   <aside class="cart-panel" id="cart-panel">
     <div class="cart-header">
@@ -647,8 +1032,10 @@
 
   <script>
     const store = {
-      name: "Shop-Right",
-      whatsapp: "2348000000000",
+      name: "Shop-Right International",
+      whatsapp: "2349029844206",
+      adminEmails: ["lukemartins605@gmail.com", "aladehabeeb213@gmail.com"],
+      adminPhones: ["+234 9029844206", "+234 8165001209"],
       baseCurrency: "NGN",
       deliveryFeeNGN: 2500,
       freeDeliveryThresholdNGN: 100000
@@ -699,7 +1086,7 @@
     };
 
     let exchangeRatesFromNGN = { ...fallbackRatesFromNGN };
-    let selectedCurrency = localStorage.getItem("Shop-Right-currency") || "NGN";
+    let selectedCurrency = localStorage.getItem("shopright-currency") || "NGN";
 
     const products = [
       {
@@ -776,8 +1163,40 @@
       }
     ];
 
-    let cart = JSON.parse(localStorage.getItem("Shop-Right-cart")) || [];
+    let cart = JSON.parse(localStorage.getItem("shopright-cart")) || [];
     let activeCategory = "All";
+
+    const defaultOrders = {
+      BM1001: {
+        id: "BM1001",
+        customer: "Demo Customer",
+        status: "Order Received",
+        updated: "Today",
+        note: "Your order has been received and is waiting for payment confirmation."
+      },
+      BM1002: {
+        id: "BM1002",
+        customer: "Demo Customer",
+        status: "Processing",
+        updated: "Today",
+        note: "Your items are being prepared for delivery."
+      },
+      BM1003: {
+        id: "BM1003",
+        customer: "Demo Customer",
+        status: "Out for Delivery",
+        updated: "Today",
+        note: "Your order is on the way. Please keep your phone available."
+      }
+    };
+
+    const orderSteps = ["Order Received", "Payment Confirmed", "Processing", "Out for Delivery", "Delivered"];
+
+    let orders = JSON.parse(localStorage.getItem("shopright-orders")) || defaultOrders;
+
+    function saveOrders() {
+      localStorage.setItem("shopright-orders", JSON.stringify(orders));
+    }
 
     function convertFromNGN(amountNGN) {
       const rate = exchangeRatesFromNGN[selectedCurrency] || 1;
@@ -804,12 +1223,12 @@
     }
 
     function saveCart() {
-      localStorage.setItem("Shop-Right-cart", JSON.stringify(cart));
+      localStorage.setItem("shopright-cart", JSON.stringify(cart));
     }
 
     function changeCurrency(currency) {
       selectedCurrency = currency;
-      localStorage.setItem("Shop-Right-currency", selectedCurrency);
+      localStorage.setItem("shopright-currency", selectedCurrency);
       document.getElementById("currency-select").value = selectedCurrency;
       updateCurrencyText();
       renderProducts();
@@ -846,7 +1265,7 @@
     async function detectLocationAndCurrency() {
       const status = document.getElementById("location-status");
 
-      if (localStorage.getItem("Shop-Right-currency")) {
+      if (localStorage.getItem("shopright-currency")) {
         status.textContent = `Currency restored from your previous selection: ${selectedCurrency}.`;
         changeCurrency(selectedCurrency);
         return;
@@ -1055,10 +1474,156 @@
 
       const deliveryNGN = subtotalNGN >= store.freeDeliveryThresholdNGN ? 0 : store.deliveryFeeNGN;
       const totalNGN = subtotalNGN + deliveryNGN;
+      const orderId = generateOrderId();
 
-      const message = `Hello ${store.name}, I want to place an order.%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AAddress: ${encodeURIComponent(address)}%0ACurrency: ${selectedCurrency}%0A%0AItems:%0A${orderItems}%0ASubtotal: ${encodeURIComponent(formatMoneyFromNGN(subtotalNGN))} (${encodeURIComponent(formatBaseMoney(subtotalNGN))})%0ADelivery: ${encodeURIComponent(formatMoneyFromNGN(deliveryNGN))} (${encodeURIComponent(formatBaseMoney(deliveryNGN))})%0ATotal: ${encodeURIComponent(formatMoneyFromNGN(totalNGN))} (${encodeURIComponent(formatBaseMoney(totalNGN))})`;
+      orders[orderId] = {
+        id: orderId,
+        customer: name,
+        phone,
+        address,
+        status: "Order Received",
+        updated: new Date().toLocaleString(),
+        note: "Your order has been received. Please wait for confirmation from support."
+      };
+      saveOrders();
 
+      const message = `Hello ${store.name}, I want to place an order.%0A%0AOrder ID: ${orderId}%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AAddress: ${encodeURIComponent(address)}%0ACurrency: ${selectedCurrency}%0A%0AItems:%0A${orderItems}%0ASubtotal: ${encodeURIComponent(formatMoneyFromNGN(subtotalNGN))} (${encodeURIComponent(formatBaseMoney(subtotalNGN))})%0ADelivery: ${encodeURIComponent(formatMoneyFromNGN(deliveryNGN))} (${encodeURIComponent(formatBaseMoney(deliveryNGN))})%0ATotal: ${encodeURIComponent(formatMoneyFromNGN(totalNGN))} (${encodeURIComponent(formatBaseMoney(totalNGN))})`;
+
+      alert(`Your Order ID is ${orderId}. You can use it to track your order.`);
       window.open(`https://wa.me/${store.whatsapp}?text=${message}`, "_blank");
+    }
+
+    function generateOrderId() {
+      return "BM" + Date.now().toString().slice(-6);
+    }
+
+    function trackOrder() {
+      const orderId = document.getElementById("tracking-id").value.trim().toUpperCase();
+      const result = document.getElementById("tracking-result");
+
+      if (!orderId) {
+        alert("Please enter your order ID.");
+        return;
+      }
+
+      const order = orders[orderId];
+
+      if (!order) {
+        result.classList.add("show");
+        result.innerHTML = `<h3>Order Not Found</h3><p>No order was found with ID <strong>${orderId}</strong>. Please check the ID or contact support.</p>`;
+        return;
+      }
+
+      const currentIndex = orderSteps.indexOf(order.status);
+      const stepsHtml = orderSteps.map((step, index) => `<div class="status-step ${index <= currentIndex ? "active" : ""}">${step}</div>`).join("");
+
+      result.classList.add("show");
+      result.innerHTML = `
+        <h3>Order ${order.id}</h3>
+        <p><strong>Customer:</strong> ${order.customer || "Customer"}</p>
+        <p><strong>Status:</strong> ${order.status}</p>
+        <p><strong>Last Updated:</strong> ${order.updated}</p>
+        <p><strong>Note:</strong> ${order.note || "No extra note."}</p>
+        <div class="status-steps">${stepsHtml}</div>
+      `;
+    }
+
+    function updateOrderStatus() {
+      const orderId = document.getElementById("admin-order-id").value.trim().toUpperCase();
+      const customerName = document.getElementById("admin-customer-name").value.trim();
+      const status = document.getElementById("admin-order-status").value;
+
+      if (!orderId) {
+        alert("Please enter an order ID.");
+        return;
+      }
+
+      orders[orderId] = {
+        ...(orders[orderId] || {}),
+        id: orderId,
+        customer: customerName || orders[orderId]?.customer || "Customer",
+        status,
+        updated: new Date().toLocaleString(),
+        note: `Order status updated to ${status}.`
+      };
+
+      saveOrders();
+      document.getElementById("tracking-id").value = orderId;
+      trackOrder();
+      alert("Order status updated successfully.");
+    }
+
+    function toggleAIChat() {
+      document.getElementById("ai-chat-panel").classList.toggle("open");
+    }
+
+    function handleChatEnter(event) {
+      if (event.key === "Enter") {
+        sendAIMessage();
+      }
+    }
+
+    function askQuickQuestion(question) {
+      document.getElementById("ai-chat-input").value = question;
+      sendAIMessage();
+    }
+
+    function sendAIMessage() {
+      const input = document.getElementById("ai-chat-input");
+      const question = input.value.trim();
+
+      if (!question) return;
+
+      addChatMessage(question, "user-message");
+      input.value = "";
+
+      setTimeout(() => {
+        const reply = getAIReply(question);
+        addChatMessage(reply, "bot-message");
+      }, 400);
+    }
+
+    function addChatMessage(text, className) {
+      const messages = document.getElementById("ai-chat-messages");
+      const message = document.createElement("div");
+      message.className = `message ${className}`;
+      message.innerHTML = text;
+      messages.appendChild(message);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function getAIReply(question) {
+      const q = question.toLowerCase();
+
+      if (q.includes("track") || q.includes("order id") || q.includes("status")) {
+        return "You can track your order from the <strong>Track Order</strong> section. Enter your Order ID, for example BM1001. If you just placed an order, your Order ID was shown after checkout.";
+      }
+
+      if (q.includes("delivery") || q.includes("shipping")) {
+        return `Delivery fee is ${formatMoneyFromNGN(store.deliveryFeeNGN)}. Orders above ${formatMoneyFromNGN(store.freeDeliveryThresholdNGN)} qualify for free delivery.`;
+      }
+
+      if (q.includes("pay") || q.includes("payment") || q.includes("bank")) {
+        return "Payment is confirmed after order review. You can send your order through WhatsApp and an admin will confirm payment details. Paystack or Flutterwave can also be added later.";
+      }
+
+      if (q.includes("currency") || q.includes("location")) {
+        return `The website detects location and displays prices in ${selectedCurrency}. You can also change currency manually from the dropdown at the top.`;
+      }
+
+      if (q.includes("return") || q.includes("refund")) {
+        return "Products should be checked on delivery. Return or refund terms should be confirmed with support before final payment.";
+      }
+
+      if (q.includes("admin") || q.includes("support") || q.includes("human") || q.includes("agent")) {
+        return `You can contact support through WhatsApp: <a href="https://wa.me/2349029844206" target="_blank">+234 9029844206</a> or <a href="https://wa.me/2348165001209" target="_blank">+234 8165001209</a>. You can also email lukemartins605@gmail.com or aladehabeeb213@gmail.com.`;
+      }
+
+      if (q.includes("product") || q.includes("stock") || q.includes("available")) {
+        return "You can browse available products in the Shop section. Each product card shows stock availability. If a product reaches its stock limit, the cart will not allow extra quantity.";
+      }
+
+      return "I can help with product availability, delivery fee, payment, order tracking, currency conversion, returns, or admin support. Please ask your question another way or contact an admin for direct help.";
     }
 
     async function initializeWebsite() {
